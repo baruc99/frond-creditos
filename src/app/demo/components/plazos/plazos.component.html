@@ -1,0 +1,117 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="openNew()"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="plazos" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['sku','nombre']"
+                [(selection)]="selectedPlazo" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Plazos</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."
+                                class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="semanas">semanas <p-sortIcon field="semanas"></p-sortIcon></th>
+                        <th pSortableColumn="tasa_normal">tasa normal  ( 1.0366 ) <p-sortIcon field="tasa_normal"></p-sortIcon></th>
+                        <th pSortableColumn="tasa_puntual">tasa puntual ( 0.8963 )<p-sortIcon field="tasa_puntual"></p-sortIcon></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-plazo>
+                    <tr>
+                        <td style="width:20%; min-width:10rem;"><span class="p-column-title">semanas</span>
+                            {{plazo.semanas}}
+                        </td>
+                        <td style="width:40%; min-width:10rem;">
+                            <span class="p-column-title">tasa normal</span>
+                            {{plazo.tasa_normal}}
+                        </td>
+                        <td style="width:40%; min-width:10rem;">
+                            <span class="p-column-title">tasa puntual</span>
+                            {{plazo.tasa_puntual}}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="editProduct(plazo)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deleteProduct(plazo)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="plazoDialog" [style]="{width: '450px'}" header="Detalles de plazo" [modal]="true"
+            class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="semanas">semanas</label>
+                    <input type="number" pInputText id="semanas" [(ngModel)]="plazo.semanas" (ngModelChange)="onWeeksChange()"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !plazo.semanas}" />
+                </div>
+                <div class="field">
+                    <label for="tasa_normal">tasa normal ( 1.0366 )</label>
+                    <input type="number" pInputText id="tasa_normal" [(ngModel)]="plazo.tasa_normal"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !plazo.tasa_normal}" />
+                </div>
+                <div class="field">
+                    <!-- [disabled]="true" -->
+                    <label for="tasa_puntual">tasa puntual ( 0.8963 )</label>
+                    <input type="number" pInputText id="tasa_puntual" [(ngModel)]="plazo.tasa_puntual"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !plazo.tasa_puntual}" />
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text"
+                    (click)="saveProduct()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deletePlazoDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="plazo">¿Estás seguro de que quieres eliminar? <b>{{plazo.semanas}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deletePlazosDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>¿Estás seguro de que quieres eliminar?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Si"
+                    (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
