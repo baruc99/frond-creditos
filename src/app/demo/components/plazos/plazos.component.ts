@@ -31,6 +31,8 @@ export class PlazosComponent {
 
     submitted: boolean = false;
 
+    loading: boolean = false;
+
 
 
     constructor(
@@ -39,8 +41,10 @@ export class PlazosComponent {
     ) { }
 
     ngOnInit() {
+        this.loading = true;
         this.plazosSercices.getAllTerms().subscribe(data => {
             this.plazos = data;
+            this.loading = false;
         });
 
 
@@ -67,6 +71,7 @@ export class PlazosComponent {
     }
 
     confirmDeleteSelected() {
+        this.loading = true;
         this.deletePlazosDialog = false;
         console.log(this.selectedPlazo);
 
@@ -77,9 +82,11 @@ export class PlazosComponent {
         }).catch(error => {
             console.error(error);
         });
+        this.loading = false;
     }
 
     confirmDelete() {
+        this.loading = true;
         this.deletePlazoDialog = false;
 
         this.plazosSercices.deleteTerm(this.plazo.id_plazo).subscribe(() => {
@@ -88,6 +95,7 @@ export class PlazosComponent {
         }, error => {
             console.error(error);
         });
+        this.loading = false;
     }
 
     hideDialog() {
@@ -96,6 +104,7 @@ export class PlazosComponent {
     }
 
     saveProduct() {
+        this.loading = true;
         this.submitted = true;
 
         // console.log(this.product);
@@ -114,6 +123,7 @@ export class PlazosComponent {
 
             this.plazo = {};
         });
+        this.loading = false;
     }
 
     onGlobalFilter(table: Table, event: Event) {

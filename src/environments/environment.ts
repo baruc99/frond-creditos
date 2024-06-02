@@ -3,9 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false,
+    production: true,
 
-    baseUrl: 'http://localhost:8080/api',
+    // baseUrl: 'http://localhost:8080/api',
+    baseUrl: 'https://sistema-de-cotizacion-de-creditos.fly.dev/api',
 
 };
 

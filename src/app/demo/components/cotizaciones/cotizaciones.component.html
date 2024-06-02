@@ -11,7 +11,7 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="cotizacions" responsiveLayout="scroll" [rows]="10"
+            <p-table #dt [value]="cotizacions" responsiveLayout="scroll" [rows]="10" [loading]="loading"
                 [globalFilterFields]="['producto.nombre', 'producto.sku']" [(selection)]="selectedCotizacions"
                 [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">

@@ -11,7 +11,7 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="plazos" responsiveLayout="scroll" [rows]="10"
+            <p-table #dt [value]="plazos" responsiveLayout="scroll" [rows]="10" [loading]="loading"
                 [globalFilterFields]="['sku','nombre']"
                 [(selection)]="selectedPlazo" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">

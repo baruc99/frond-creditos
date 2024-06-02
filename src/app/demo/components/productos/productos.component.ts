@@ -28,7 +28,7 @@ export class ProductosComponent {
     cols: any[] = [];
 
 
-
+    loading: boolean = false;
 
 
     constructor(
@@ -37,10 +37,11 @@ export class ProductosComponent {
     ) { }
 
     ngOnInit() {
+        this.loading = true;
         this.productosService.getAllProducts().subscribe(data => {
             this.products = data;
+            this.loading = false;
         });
-
 
     }
 
@@ -65,6 +66,7 @@ export class ProductosComponent {
     }
 
     confirmDeleteSelected() {
+        this.loading = true;
         this.deleteProductsDialog = false;
         console.log(this.selectedProducts);
 
@@ -72,17 +74,20 @@ export class ProductosComponent {
         Promise.all(deleteRequests).then(() => {
             this.products = this.products.filter(product => !this.selectedProducts.includes(product));
             this.selectedProducts = [];
+            this.loading = false;
         }).catch(error => {
             console.error(error);
         });
     }
 
     confirmDelete() {
+        this.loading = true;
         this.deleteProductDialog = false;
 
         this.productosService.deleteProduct(this.product.id_producto).subscribe(() => {
             this.products = this.products.filter(val => val.id_producto !== this.product.id_producto);
             this.product = {};
+            this.loading = false;
         }, error => {
             console.error(error);
         });
@@ -94,6 +99,7 @@ export class ProductosComponent {
     }
 
     saveProduct() {
+        this.loading = true;
         this.submitted = true;
 
         // console.log(this.product);
@@ -111,6 +117,7 @@ export class ProductosComponent {
             this.productDialog = false;
 
             this.product = {};
+            this.loading = false;
         });
     }
 

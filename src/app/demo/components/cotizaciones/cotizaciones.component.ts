@@ -38,6 +38,7 @@ export class CotizacionesComponent {
 
     plazos: Plazo[] | undefined;
     selectedplazos: Plazo | undefined;
+    loading: boolean = false;
 
     // searchTerm: string = '';
     // filteredProducts: any[] = [];
@@ -54,6 +55,7 @@ export class CotizacionesComponent {
     ) { }
 
     ngOnInit() {
+        this.loading = true;
         this.cotizacionesService.getAllQuotations().subscribe(data => {
             this.cotizacions = data;
         });
@@ -66,7 +68,7 @@ export class CotizacionesComponent {
             this.plazos = data;
         });
 
-
+        this.loading = false;
     }
 
     openNew() {
@@ -90,6 +92,7 @@ export class CotizacionesComponent {
     }
 
     confirmDeleteSelected() {
+        this.loading = true;
         this.deletecotizacionsDialog = false;
         console.log(this.selectedCotizacions);
 
@@ -100,9 +103,11 @@ export class CotizacionesComponent {
         }).catch(error => {
             console.error(error);
         });
+        this.loading = false;
     }
 
     confirmDelete() {
+        this.loading = true;
         this.deleteCotizacionDialog = false;
 
         this.cotizacionesService.deleteQuotation(this.cotizacion.id_cotizacion).subscribe(() => {
@@ -111,6 +116,7 @@ export class CotizacionesComponent {
         }, error => {
             console.error(error);
         });
+        this.loading = false;
     }
 
     hideDialog() {
@@ -119,6 +125,7 @@ export class CotizacionesComponent {
     }
 
     saveProduct() {
+        this.loading = true;
         this.submitted = true;
 
         // console.log(this.product);
@@ -137,6 +144,7 @@ export class CotizacionesComponent {
 
             this.cotizacion = {};
         });
+        this.loading = false;
     }
 
     onGlobalFilter(table: Table, event: Event) {
